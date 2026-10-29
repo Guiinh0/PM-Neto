@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 100" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Fundo escuro com vinheta sutil para o selo circular oficial -->
+    <radialGradient id="badgeGlowLogo" cx="50%" cy="46%" r="54%">
+      <stop offset="0%" stop-color="#2a2c31"/>
+      <stop offset="60%" stop-color="#16171a"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Emblema Oficial com Selo Circular (Escala e Posição Otimizada) -->
+  <g transform="translate(4, 2) scale(0.48)">
+    <!-- Fundo Circular Oficial -->
+    <circle cx="100" cy="100" r="95" fill="url(#badgeGlowLogo)"/>
+
+    <!-- 1. Alça do Cadeado (Branco Puro) -->
+    <path d="M 68 91 
+             V 67 
+             A 32 32 0 0 1 132 67 
+             V 91 
+             H 118 
+             V 67 
+             A 18 18 0 0 0 82 67 
+             V 93 
+             Z" 
+          fill="#FFFFFF"/>
+
+    <!-- 2. Colar Amarelo com Faceta 3D (Metade Esquerda Iluminada) -->
+    <polygon points="53,92 100,101 100,117 53,108" fill="#F5BA08"/>
+
+    <!-- 3. Colar Amarelo com Faceta 3D (Metade Direita Sombra Suave) -->
+    <polygon points="100,101 147,92 147,108 100,117" fill="#E2A600"/>
+
+    <!-- 4. Flanco Esquerdo Amarelo -->
+    <path d="M 53 108 
+             C 53 138, 74 156, 100 166 
+             L 100 151 
+             C 79 142, 67 127, 67 110.5 
+             L 53 108 
+             Z" 
+          fill="#F5BA08"/>
+
+    <!-- 5. Flanco Direito Branco -->
+    <path d="M 147 108 
+             C 147 138, 126 156, 100 166 
+             L 100 151 
+             C 121 142, 133 127, 133 110.5 
+             L 147 108 
+             Z" 
+          fill="#FFFFFF"/>
+
+    <!-- 6. Cavidade Central Escura -->
+    <path d="M 67 110.5 
+             L 100 117 
+             L 133 110.5 
+             C 133 127, 121 142, 100 151 
+             C 79 142, 67 127, 67 110.5 
+             Z" 
+          fill="#121315"/>
+
+    <!-- 7. Fechadura Branca -->
+    <circle cx="100" cy="128.5" r="5.8" fill="#FFFFFF"/>
+    <polygon points="97.2,131 94.6,143 105.4,143 102.8,131" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Tipografia da Marca -->
+  <!-- "PM NETO" em fonte condensada e marcante -->
+  <text x="108" y="49" font-family="'Barlow Condensed', 'Oswald', 'Montserrat', 'Arial Black', sans-serif" font-size="46" font-weight="900" letter-spacing="1.5" fill="#FFFFFF">
+    PM <tspan fill="#F5BA08">NETO</tspan>
+  </text>
+
+  <!-- Divisor dourado de precisão tática -->
+  <line x1="108" y1="59" x2="435" y2="59" stroke="#F5BA08" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Subtítulo Oficial extraído do Instagram: VIGILÂNCIA E SEGURANÇA -->
+  <text x="109" y="76" font-family="'Inter', 'Montserrat', 'Arial', sans-serif" font-size="13" font-weight="800" letter-spacing="3.2" fill="#FFFFFF">
+    VIGILÂNCIA E SEGURANÇA
+  </text>
+  
+  <!-- Razão Social / Descrição Regional -->
+  <text x="109" y="90" font-family="'Inter', 'Montserrat', 'Arial', sans-serif" font-size="9" font-weight="600" letter-spacing="2" fill="#A1A1AA">
+    PIETRO MARIA NETO · LITORAL DE SP
+  </text>
+</svg>

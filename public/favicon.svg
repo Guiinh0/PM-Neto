@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Fundo escuro com vinheta sutil idêntica ao avatar do Instagram oficial @pmneto.serv -->
+    <radialGradient id="pmBadgeBg" cx="50%" cy="46%" r="54%">
+      <stop offset="0%" stop-color="#2a2c31"/>
+      <stop offset="60%" stop-color="#16171a"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fundo Circular do Avatar -->
+  <circle cx="100" cy="100" r="95" fill="url(#pmBadgeBg)"/>
+
+  <!-- 1. Alça do Cadeado (Branco Puro, Robusta e Arredondada) -->
+  <path d="M 68 91 
+           V 67 
+           A 32 32 0 0 1 132 67 
+           V 91 
+           H 118 
+           V 67 
+           A 18 18 0 0 0 82 67 
+           V 93 
+           Z" 
+        fill="#FFFFFF"/>
+
+  <!-- 2. Colar Superior Amarelo com Faceta 3D (Lado Esquerdo Iluminado) -->
+  <polygon points="53,92 100,101 100,117 53,108" fill="#F5BA08"/>
+
+  <!-- 3. Colar Superior Amarelo com Faceta 3D (Lado Direito Sombra Suave) -->
+  <polygon points="100,101 147,92 147,108 100,117" fill="#E2A600"/>
+
+  <!-- 4. Flanco Esquerdo (Amarelo Ouro) -->
+  <path d="M 53 108 
+           C 53 138, 74 156, 100 166 
+           L 100 151 
+           C 79 142, 67 127, 67 110.5 
+           L 53 108 
+           Z" 
+        fill="#F5BA08"/>
+
+  <!-- 5. Flanco Direito (Branco Puro) -->
+  <path d="M 147 108 
+           C 147 138, 126 156, 100 166 
+           L 100 151 
+           C 121 142, 133 127, 133 110.5 
+           L 147 108 
+           Z" 
+        fill="#FFFFFF"/>
+
+  <!-- 6. Cavidade Central Escura -->
+  <path d="M 67 110.5 
+           L 100 117 
+           L 133 110.5 
+           C 133 127, 121 142, 100 151 
+           C 79 142, 67 127, 67 110.5 
+           Z" 
+        fill="#121315"/>
+
+  <!-- 7. Fechadura (Keyhole) em Branco Puro -->
+  <circle cx="100" cy="128.5" r="5.8" fill="#FFFFFF"/>
+  <polygon points="97.2,131 94.6,143 105.4,143 102.8,131" fill="#FFFFFF"/>
+</svg>
