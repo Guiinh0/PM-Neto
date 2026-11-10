@@ -18,7 +18,7 @@ export const MobileCTABar: React.FC = () => {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-[4px] bg-[#FFD100] text-[#0A0A0A] font-medium text-sm transition-all"
+        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#FFD100] text-[#0A0A0A] font-medium text-sm transition-all"
       >
         <span>Falar no WhatsApp</span>
         <ArrowUpRight className="w-4 h-4" />

@@ -54,7 +54,7 @@ export const Faq: React.FC = () => {
               </p>
             </div>
 
-            <div className="mt-10 lg:mt-16 p-6 rounded-[4px] border border-[#111111]/15 bg-white/50 max-w-sm">
+            <div className="mt-10 lg:mt-16 p-6 sm:p-7 rounded-2xl border border-[#111111]/15 bg-white/70 shadow-sm max-w-sm">
               <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#111111]/60 block mb-2">
                 Atendimento Técnico
               </span>

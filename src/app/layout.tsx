@@ -5,7 +5,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWhatsApp } from "@/components/common/FloatingWhatsApp";
 import { MobileCTABar } from "@/components/common/MobileCTABar";
-import { CookieConsent } from "@/components/common/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -99,7 +98,6 @@ export default function RootLayout({
         <Footer />
         <FloatingWhatsApp />
         <MobileCTABar />
-        <CookieConsent />
       </body>
     </html>
   );

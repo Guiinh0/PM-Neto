@@ -156,7 +156,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   {service.number}
                 </span>
                 {service.badge && (
-                  <span className="px-3.5 py-1.5 rounded-[3px] bg-[#161616] border border-white/[0.12] text-[11px] font-mono uppercase tracking-[0.2em] text-[#FFD100]">
+                  <span className="px-3.5 py-1.5 rounded-full bg-[#161616] border border-white/[0.12] text-[11px] font-mono uppercase tracking-[0.2em] text-[#FFD100]">
                     {service.badge}
                   </span>
                 )}
@@ -199,7 +199,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
             {/* Moldura Visual Editorial */}
             <div className="lg:col-span-5">
-              <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] w-full rounded-[4px] overflow-hidden border border-white/[0.12] bg-[#161616] group">
+              <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden border border-white/[0.12] bg-[#161616] group shadow-2xl">
                 <Image
                   src={service.image}
                   alt={service.title}
@@ -210,7 +210,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent opacity-85" />
 
-                <div className="absolute top-4 right-4 w-11 h-11 rounded-[4px] bg-[#0A0A0A]/85 border border-white/[0.15] backdrop-blur-md text-[#FFD100] flex items-center justify-center">
+                <div className="absolute top-4 right-4 w-11 h-11 rounded-xl bg-[#0A0A0A]/85 border border-white/[0.15] backdrop-blur-md text-[#FFD100] flex items-center justify-center">
                   <IconHelper name={service.icon} className="w-5 h-5" />
                 </div>
 
@@ -265,7 +265,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
           {/* Perfil de Atendimento + Rigor Operacional */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-6 p-8 sm:p-10 rounded-[4px] bg-white/65 border border-[#111111]/12">
+            <div className="lg:col-span-6 p-8 sm:p-10 rounded-2xl bg-white/65 border border-[#111111]/12 shadow-sm">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#111111]/60 block mb-2">
                 [ 02 // APLICAÇÕES ]
               </span>
@@ -285,7 +285,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               </ul>
             </div>
 
-            <div className="lg:col-span-6 p-8 sm:p-10 rounded-[4px] bg-[#111111] text-[#F5F5F5]">
+            <div className="lg:col-span-6 p-8 sm:p-10 rounded-2xl bg-[#111111] text-[#F5F5F5] shadow-sm">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD100] block mb-2">
                 [ 03 // RIGOR OPERACIONAL ]
               </span>
@@ -328,14 +328,14 @@ export default async function ServicePage({ params }: ServicePageProps) {
               href={customWhatsAppUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#0A0A0A] text-[#FFD100] text-sm font-semibold tracking-wider uppercase rounded-[4px] shadow-xl hover:bg-[#1a1a1a] transition-all"
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#0A0A0A] text-[#FFD100] text-sm font-semibold tracking-wider uppercase rounded-xl shadow-xl hover:bg-[#1a1a1a] transition-all"
             >
               <span>Falar no WhatsApp Agora</span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
             <Link
               href="/#contato"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-[#0A0A0A]/30 text-[#0A0A0A] text-xs font-mono uppercase tracking-wider rounded-[4px] hover:bg-[#0A0A0A]/10 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-[#0A0A0A]/30 text-[#0A0A0A] text-xs font-mono uppercase tracking-wider rounded-xl hover:bg-[#0A0A0A]/10 transition-colors"
             >
               <span>Preencher Formulário Técnico</span>
             </Link>
@@ -369,14 +369,14 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <Link
                 key={rel.slug}
                 href={`/servicos/${rel.slug}`}
-                className="group p-7 rounded-[4px] bg-[#0A0A0A] border border-white/[0.08] hover:border-[#FFD100]/60 transition-all duration-300 flex flex-col justify-between"
+                className="group p-7 rounded-2xl bg-[#0A0A0A] border border-white/[0.08] hover:border-[#FFD100]/60 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <span className="font-mono text-4xl font-light text-stroke-dark group-hover:text-[#FFD100] transition-colors">
                       {rel.number}
                     </span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#8A8A8A] px-2.5 py-1 rounded-[3px] border border-white/[0.08]">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#8A8A8A] px-3 py-1 rounded-full border border-white/[0.08]">
                       {rel.badge}
                     </span>
                   </div>

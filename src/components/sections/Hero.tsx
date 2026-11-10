@@ -76,7 +76,6 @@ export const Hero: React.FC = () => {
     <section
       id="inicio"
       className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden bg-[#0A0A0A]"
-      style={{ width: "100vw" }}
     >
       {/* 1. Grade de Pontos Tática no Fundo (Opacidade 0.05 com fade nas bordas) */}
       <div

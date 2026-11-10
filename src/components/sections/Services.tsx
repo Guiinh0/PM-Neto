@@ -41,7 +41,7 @@ export const Services: React.FC = () => {
                   >
                     {service.number}
                   </span>
-                  <span className="text-[11px] font-mono uppercase tracking-[0.2em] px-3 py-1 rounded-[3px] border border-[#111111]/15 text-[#111111]/70 group-hover:border-[#111111] group-hover:bg-[#111111] group-hover:text-[#FFD100] transition-all duration-300">
+                  <span className="text-[11px] font-mono uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full border border-[#111111]/15 text-[#111111]/70 group-hover:border-[#111111] group-hover:bg-[#111111] group-hover:text-[#FFD100] transition-all duration-300">
                     {service.badge || "Atendimento Litoral"}
                   </span>
                 </div>

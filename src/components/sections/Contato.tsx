@@ -112,7 +112,7 @@ export const Contato: React.FC = () => {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#0A0A0A] text-[#FFD100] text-base font-semibold tracking-wide uppercase rounded-[4px] shadow-2xl hover:bg-[#1a1a1a] hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A0A0A]"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#0A0A0A] text-[#FFD100] text-base font-semibold tracking-wide uppercase rounded-xl shadow-2xl hover:bg-[#1a1a1a] hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A0A0A]"
                 >
                   <span>Falar no WhatsApp</span>
                   <ArrowUpRight className="w-5 h-5 text-[#FFD100]" />
@@ -122,7 +122,7 @@ export const Contato: React.FC = () => {
 
             {/* Lado Direito: Formulário com Campos de Fundo Preto */}
             <div className="lg:col-span-5 pt-4 lg:pt-0">
-              <div className="bg-[#0A0A0A] p-8 sm:p-10 rounded-[6px] shadow-2xl text-white border border-white/[0.08]">
+              <div className="bg-[#0A0A0A] p-8 sm:p-10 rounded-2xl shadow-2xl text-white border border-white/[0.08]">
                 <span className="text-xs uppercase tracking-[0.2em] text-[#FFD100] block mb-2 font-mono font-medium">
                   Mensagem Direta
                 </span>
@@ -144,7 +144,7 @@ export const Contato: React.FC = () => {
                         href={customWhatsAppSuccessUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-3 px-4 bg-[#FFD100] text-[#0A0A0A] font-semibold text-xs uppercase tracking-wider rounded-[4px] hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3 px-4 bg-[#FFD100] text-[#0A0A0A] font-semibold text-xs uppercase tracking-wider rounded-xl hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2"
                       >
                         <span>Adiantar no WhatsApp Agora</span>
                         <ArrowUpRight className="w-4 h-4" />
@@ -161,7 +161,7 @@ export const Contato: React.FC = () => {
                 ) : (
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {errorMessage && (
-                      <div className="p-3 text-xs text-red-300 bg-red-950/60 border border-red-800 flex items-center gap-2">
+                      <div className="p-3 text-xs text-red-300 bg-red-950/60 border border-red-800 rounded-lg flex items-center gap-2">
                         <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
                         <span>{errorMessage}</span>
                       </div>
@@ -176,7 +176,7 @@ export const Contato: React.FC = () => {
                         type="text"
                         {...register("nome")}
                         placeholder="Nome completo *"
-                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-xl focus:outline-none focus:border-[#FFD100] transition-colors"
                       />
                       {errors.nome && (
                         <p className="mt-1 text-xs text-red-400">{errors.nome.message}</p>
@@ -198,7 +198,7 @@ export const Contato: React.FC = () => {
                           },
                         })}
                         placeholder="WhatsApp / Telefone com DDD *"
-                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-xl focus:outline-none focus:border-[#FFD100] transition-colors"
                       />
                       {errors.telefone && (
                         <p className="mt-1 text-xs text-red-400">{errors.telefone.message}</p>
@@ -212,7 +212,7 @@ export const Contato: React.FC = () => {
                       <select
                         id="servico"
                         {...register("servico")}
-                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] rounded-xl focus:outline-none focus:border-[#FFD100] transition-colors"
                       >
                         {siteContent.services.map((s) => (
                           <option key={s.id} value={s.title} className="bg-[#161616] text-[#F5F5F5]">
@@ -237,7 +237,7 @@ export const Contato: React.FC = () => {
                         rows={3}
                         {...register("mensagem")}
                         placeholder="Detalhes (cidade, condomínio, marina ou empresa) *"
-                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors resize-none"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-xl focus:outline-none focus:border-[#FFD100] transition-colors resize-none"
                       />
                       {errors.mensagem && (
                         <p className="mt-1 text-xs text-red-400">{errors.mensagem.message}</p>
@@ -247,7 +247,7 @@ export const Contato: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 bg-[#FFD100] text-[#0A0A0A] font-semibold text-sm uppercase tracking-wider rounded-[4px] hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                      className="w-full py-3.5 px-6 bg-[#FFD100] text-[#0A0A0A] font-semibold text-sm uppercase tracking-wider rounded-xl hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <>

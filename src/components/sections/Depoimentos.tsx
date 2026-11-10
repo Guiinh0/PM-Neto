@@ -46,7 +46,7 @@ export const Depoimentos: React.FC = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveIndex(idx)}
-                  className={`px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-[3px] border transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
                     isActive
                       ? "bg-[#FFD100] text-[#0A0A0A] border-[#FFD100] font-medium"
                       : "bg-[#161616] text-[#8A8A8A] border-white/[0.08] hover:text-[#F5F5F5] hover:border-white/20"
@@ -62,7 +62,7 @@ export const Depoimentos: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Foto de Pietro Maria Neto em Preto e Branco */}
           <div className="lg:col-span-5 relative">
-            <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full rounded-[4px] overflow-hidden border border-white/[0.12] bg-[#161616] group">
+            <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full rounded-2xl overflow-hidden border border-white/[0.12] bg-[#161616] group shadow-2xl">
               <Image
                 src="/images/fundador.jpg"
                 alt="Pietro Maria Neto - Fundador e Diretor de Operações"
@@ -74,7 +74,7 @@ export const Depoimentos: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent opacity-90" />
 
               {/* Selo Superior Discreto */}
-              <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-[3px] bg-[#0A0A0A]/80 border border-white/[0.12] backdrop-blur-md">
+              <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A0A0A]/80 border border-white/[0.12] backdrop-blur-md">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#FFD100]" />
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#F5F5F5]">
                   Supervisão Direta
@@ -102,7 +102,7 @@ export const Depoimentos: React.FC = () => {
                   &ldquo;
                 </span>
 
-                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD100] px-3 py-1 rounded-[3px] bg-[#FFD100]/10 border border-[#FFD100]/20">
+                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD100] px-3.5 py-1.5 rounded-full bg-[#FFD100]/10 border border-[#FFD100]/20">
                   {current.segment}
                 </span>
               </div>

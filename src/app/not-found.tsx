@@ -19,7 +19,7 @@ export default function NotFound() {
         aria-hidden="true"
       />
 
-      <div className="max-w-xl w-full relative z-10 p-8 sm:p-12 rounded-[4px] bg-[#161616] border border-white/[0.08]">
+      <div className="max-w-xl w-full relative z-10 p-8 sm:p-12 rounded-2xl bg-[#161616] border border-white/[0.08] shadow-2xl">
         <span className="font-mono text-7xl sm:text-8xl font-light text-stroke-dark block leading-none mb-6 select-none">
           404
         </span>

@@ -34,7 +34,7 @@ export default function TermosPage() {
           </h1>
         </div>
 
-        <div className="bg-[#161616] border border-white/[0.08] rounded-[4px] p-8 sm:p-12 space-y-8 text-sm sm:text-base text-[#A0A0A0] font-light leading-relaxed">
+        <div className="bg-[#161616] border border-white/[0.08] rounded-2xl p-8 sm:p-12 space-y-8 text-sm sm:text-base text-[#A0A0A0] font-light leading-relaxed shadow-xl">
           <p className="text-[#F5F5F5]">
             Ao acessar o site da <strong className="font-medium">PM Neto - Segurança e Vigilância ({siteContent.company.legalName})</strong>, inscrita no CNPJ sob o nº <strong className="font-medium text-[#FFD100]">{siteContent.company.cnpj}</strong>, o usuário concorda em cumprir e respeitar os termos e condições aqui estabelecidos.
           </p>

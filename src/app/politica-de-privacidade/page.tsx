@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
           </h1>
         </div>
 
-        <div className="bg-[#161616] border border-white/[0.08] rounded-[4px] p-8 sm:p-12 space-y-8 text-sm sm:text-base text-[#A0A0A0] font-light leading-relaxed">
+        <div className="bg-[#161616] border border-white/[0.08] rounded-2xl p-8 sm:p-12 space-y-8 text-sm sm:text-base text-[#A0A0A0] font-light leading-relaxed shadow-xl">
           <p className="text-[#F5F5F5]">
             A <strong className="font-medium">PM Neto – Prestação de Serviços (Pietro Maria Neto Vigilância e Segurança)</strong>, inscrita no CNPJ sob o nº <strong className="font-medium text-[#FFD100]">{siteContent.company.cnpj}</strong>, tem como princípio inegociável a proteção, segurança e confidencialidade das informações dos seus usuários, clientes e parceiros comerciais.
           </p>
@@ -87,7 +87,7 @@ export default function PrivacyPolicyPage() {
             <p className="mb-4">
               Para esclarecer dúvidas sobre esta Política de Privacidade ou sobre o tratamento dos seus dados pessoais, entre em contato através da nossa central:
             </p>
-            <div className="p-5 rounded-[4px] bg-[#0A0A0A] border border-white/[0.08] text-xs sm:text-sm font-mono text-[#A0A0A0] space-y-1.5">
+            <div className="p-5 rounded-xl bg-[#0A0A0A] border border-white/[0.08] text-xs sm:text-sm font-mono text-[#A0A0A0] space-y-1.5">
               <p><span className="text-[#F5F5F5]">Encarregado LGPD:</span> Diretoria Operacional – PM Neto Segurança</p>
               <p><span className="text-[#F5F5F5]">E-mail:</span> {siteContent.company.email}</p>
               <p><span className="text-[#F5F5F5]">Telefone:</span> {siteContent.company.phone}</p>
