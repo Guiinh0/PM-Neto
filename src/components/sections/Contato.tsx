@@ -1,61 +1,53 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Link from "next/link";
 import { siteContent } from "@/data/content";
-import { Section } from "../ui/Section";
-import { Heading } from "../ui/Heading";
-import { Button } from "../ui/Button";
-import { Badge } from "../ui/Badge";
-import {
-  MessageSquare,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  ShieldCheck,
-  Send,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
-import { InstagramIcon as Instagram } from "../ui/InstagramIcon";
+import { ArrowUpRight, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  nome: z.string().min(2, "Por favor, informe seu nome completo"),
-  empresa: z.string().optional(),
-  telefone: z.string().min(9, "Informe um telefone/WhatsApp válido com DDD"),
-  email: z.string().email("Informe um endereço de e-mail válido"),
-  servico: z.string().min(1, "Selecione o serviço de interesse"),
-  mensagem: z.string().min(10, "Escreva brevemente sobre a sua necessidade"),
-  lgpdConsent: z.boolean().refine((val) => val === true, "Você precisa concordar com os termos de privacidade"),
+  nome: z.string().min(2, "Por favor, informe seu nome"),
+  telefone: z.string().min(10, "Informe um telefone ou WhatsApp válido com DDD"),
+  servico: z.string().min(1, "Selecione a especialidade desejada"),
+  mensagem: z.string().min(5, "Descreva brevemente sua necessidade"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
+function formatPhoneBR(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length === 0) return "";
+  if (digits.length <= 2) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 export const Contato: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [lastSubmitted, setLastSubmitted] = useState<FormData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nome: "",
-      empresa: "",
       telefone: "",
-      email: "",
-      servico: "",
+      servico: "Segurança Patrimonial e Residencial",
       mensagem: "",
-      lgpdConsent: false,
     },
   });
 
@@ -73,14 +65,14 @@ export const Contato: React.FC = () => {
       const resData = await response.json();
 
       if (response.ok && resData.success) {
+        setLastSubmitted(data);
         setSubmitSuccess(true);
         reset();
       } else {
-        setErrorMessage(resData.message || "Ocorreu uma falha ao enviar. Tente pelo WhatsApp.");
+        setErrorMessage(resData.message || "Falha ao enviar mensagem. Entre em contato pelo WhatsApp.");
       }
-    } catch (err) {
-      console.error("Erro na requisição:", err);
-      setErrorMessage("Não foi possível conectar ao servidor. Por favor, utilize o botão de WhatsApp.");
+    } catch {
+      setErrorMessage("Não foi possível conectar. Por favor, utilize o botão de WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
@@ -90,346 +82,272 @@ export const Contato: React.FC = () => {
     siteContent.company.whatsappDefaultMessage
   )}`;
 
+  const customWhatsAppSuccessUrl = lastSubmitted
+    ? `https://wa.me/${siteContent.company.whatsappNumber}?text=${encodeURIComponent(
+        `Olá! Me chamo ${lastSubmitted.nome}. Solicitei diagnóstico pelo site para *${lastSubmitted.servico}*.\nDetalhes: ${lastSubmitted.mensagem}`
+      )}`
+    : whatsappUrl;
+
   return (
-    <Section id="contato" variant="black" className="relative">
-      {/* Faixa amarela decorativa angular no fundo */}
-      <div className="absolute top-0 right-0 w-72 h-1.5 bg-[#FFD100] shadow-[0_0_20px_#FFD100]" />
-
-      <Heading
-        badge="Plantão & Orçamentos"
-        badgeIcon={<ShieldCheck className="w-3.5 h-3.5 text-[#FFD100]" />}
-        title={
-          <>
-            Vamos proteger o que <span className="text-[#FFD100]">você construiu?</span>
-          </>
-        }
-        subtitle="Fale agora mesmo com nossa equipe de operações. Solicite uma visita técnica sem compromisso no Litoral de SP."
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* Formulário de Contato com Validação */}
-        <div className="lg:col-span-7 bg-[#141414] border border-[#262626] rounded-2xl p-6 sm:p-10 shadow-2xl relative">
-          <div className="mb-6 pb-4 border-b border-[#222222] flex items-center justify-between">
-            <div>
-              <h3 className="text-xl sm:text-2xl font-black uppercase text-white font-heading">
-                Solicite uma Proposta Técnica
-              </h3>
-              <p className="text-xs text-gray-400 mt-1">
-                Preencha os campos abaixo para um dimensionamento preciso.
-              </p>
-            </div>
-            <Badge variant="yellow" className="text-[10px]">
-              Resposta Rápida
-            </Badge>
-          </div>
-
-          {submitSuccess ? (
-            <div className="py-12 px-4 text-center flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#FFD100] text-[#0A0A0A] flex items-center justify-center mb-4">
-                <CheckCircle className="w-10 h-10" />
-              </div>
-              <h4 className="text-2xl font-black uppercase text-white font-heading">
-                Solicitação Recebida com Sucesso!
-              </h4>
-              <p className="mt-3 text-sm text-gray-300 max-w-md">
-                Nossa diretoria de operações já recebeu seus dados e retornará o contato com a proposta ou para agendar a visita técnica.
-              </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={() => setSubmitSuccess(false)}
-                  variant="dark"
-                  size="sm"
-                >
-                  Enviar Nova Mensagem
-                </Button>
-                <Button
-                  href={whatsappUrl}
-                  isExternal
-                  variant="primary"
-                  size="sm"
-                  icon={<MessageSquare className="w-4 h-4" />}
-                >
-                  Falar no WhatsApp Imediatamente
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              {errorMessage && (
-                <div className="p-3.5 rounded-lg bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Nome */}
-                <div>
-                  <label htmlFor="nome" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                    Nome Completo *
-                  </label>
-                  <input
-                    id="nome"
-                    type="text"
-                    {...register("nome")}
-                    placeholder="Seu nome ou responsável"
-                    className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors"
-                  />
-                  {errors.nome && (
-                    <p className="mt-1 text-xs text-red-400">{errors.nome.message}</p>
-                  )}
-                </div>
-
-                {/* Empresa */}
-                <div>
-                  <label htmlFor="empresa" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                    Empresa / Condomínio
-                  </label>
-                  <input
-                    id="empresa"
-                    type="text"
-                    {...register("empresa")}
-                    placeholder="Nome da empresa ou residencial"
-                    className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Telefone */}
-                <div>
-                  <label htmlFor="telefone" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                    Telefone / WhatsApp *
-                  </label>
-                  <input
-                    id="telefone"
-                    type="tel"
-                    {...register("telefone")}
-                    placeholder="(13) 99999-9999"
-                    className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors"
-                  />
-                  {errors.telefone && (
-                    <p className="mt-1 text-xs text-red-400">{errors.telefone.message}</p>
-                  )}
-                </div>
-
-                {/* E-mail */}
-                <div>
-                  <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                    E-mail Corporativo *
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    {...register("email")}
-                    placeholder="exemplo@empresa.com.br"
-                    className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors"
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Tipo de Serviço */}
-              <div>
-                <label htmlFor="servico" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                  Tipo de Serviço Desejado *
-                </label>
-                <select
-                  id="servico"
-                  {...register("servico")}
-                  className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors"
-                >
-                  <option value="">Selecione o serviço...</option>
-                  {siteContent.services.map((s) => (
-                    <option key={s.id} value={s.title}>
-                      {s.title}
-                    </option>
-                  ))}
-                  <option value="Multiplos Servicos / Pacote Completo">
-                    Múltiplos Serviços / Pacote Completo Integrado
-                  </option>
-                </select>
-                {errors.servico && (
-                  <p className="mt-1 text-xs text-red-400">{errors.servico.message}</p>
-                )}
-              </div>
-
-              {/* Mensagem */}
-              <div>
-                <label htmlFor="mensagem" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
-                  Detalhes da Necessidade / Cidade no Litoral *
-                </label>
-                <textarea
-                  id="mensagem"
-                  rows={4}
-                  {...register("mensagem")}
-                  placeholder="Informe a localização do posto, número estimado de porteiros/vigilantes ou necessidades específicas..."
-                  className="w-full px-4 py-3 rounded-lg bg-[#0D0D0D] border border-[#2B2B2B] text-white text-sm focus:border-[#FFD100] focus:ring-1 focus:ring-[#FFD100] focus:outline-none transition-colors resize-none"
-                />
-                {errors.mensagem && (
-                  <p className="mt-1 text-xs text-red-400">{errors.mensagem.message}</p>
-                )}
-              </div>
-
-              {/* Checkbox LGPD */}
-              <div className="pt-1">
-                <label className="flex items-start gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register("lgpdConsent")}
-                    className="mt-1 w-4 h-4 rounded bg-[#0D0D0D] border-[#333333] text-[#FFD100] focus:ring-[#FFD100] accent-[#FFD100]"
-                  />
-                  <span className="text-xs text-gray-400 leading-normal">
-                    Concordo com o tratamento dos meus dados exclusivamente para o envio do orçamento, de acordo com a{" "}
-                    <Link href="/politica-de-privacidade" className="text-[#FFD100] underline hover:text-white">
-                      Política de Privacidade e LGPD
-                    </Link>.
-                  </span>
-                </label>
-                {errors.lgpdConsent && (
-                  <p className="mt-1 text-xs text-red-400">{errors.lgpdConsent.message}</p>
-                )}
-              </div>
-
-              {/* Botão de Envio */}
-              <div className="pt-3">
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  disabled={isSubmitting}
-                  icon={
-                    isSubmitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <Send className="w-5 h-5" />
-                    )
-                  }
-                  iconPosition="right"
-                >
-                  {isSubmitting ? "Enviando Solicitação..." : "Enviar Pedido de Orçamento"}
-                </Button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        {/* Informações de Contato Direto & WhatsApp Rápido */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          {/* Card Amarelo de WhatsApp Direto */}
-          <div className="rounded-2xl bg-[#FFD100] text-[#0A0A0A] p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
-            <div className="relative z-10">
-              <span className="text-xs font-black uppercase tracking-widest bg-[#0A0A0A] text-[#FFD100] px-3 py-1 rounded-full inline-block mb-3">
-                Atendimento Imediato
+    <div id="contato" className="relative">
+      {/* Bloco de Contato: Fundo Amarelo Sólido da Marca */}
+      <section className="py-28 sm:py-40 bg-[#FFD100] text-[#0A0A0A] relative z-20">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Lado Esquerdo: Título Gigante e CTA WhatsApp */}
+            <div className="lg:col-span-7">
+              <span className="text-xs uppercase tracking-[0.25em] text-[#0A0A0A]/70 block mb-4 font-mono font-bold">
+                [ 05 // ATENDIMENTO IMEDIATO ]
               </span>
-              <h4 className="text-2xl sm:text-3xl font-black uppercase font-heading leading-tight">
-                Prefere falar agora pelo WhatsApp?
-              </h4>
-              <p className="mt-2 text-xs sm:text-sm font-semibold text-[#0A0A0A]/85">
-                Clique no botão abaixo para iniciar uma conversa direta com nossa central operacional.
+              <h2 className="text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-[#0A0A0A] leading-[1.05]">
+                Vamos proteger o que você <span className="font-semibold underline decoration-2 underline-offset-8">construiu.</span>
+              </h2>
+              <p className="mt-8 text-lg sm:text-xl text-[#0A0A0A]/85 max-w-xl font-normal leading-relaxed">
+                Supervisão de operações dedicada 24h. Solicite um diagnóstico técnico e orçamento sob medida para o seu condomínio, empresa ou embarcação no Litoral.
               </p>
+
+              {/* Botão Primário: Preto com Texto Amarelo */}
+              <div className="mt-10">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#0A0A0A] text-[#FFD100] text-base font-semibold tracking-wide uppercase rounded-[4px] shadow-2xl hover:bg-[#1a1a1a] hover:-translate-y-0.5 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A0A0A]"
+                >
+                  <span>Falar no WhatsApp</span>
+                  <ArrowUpRight className="w-5 h-5 text-[#FFD100]" />
+                </a>
+              </div>
             </div>
 
-            <div className="mt-6 relative z-10">
-              <Button
-                href={whatsappUrl}
-                isExternal
-                variant="black"
-                size="md"
-                fullWidth
-                icon={<MessageSquare className="w-5 h-5 fill-current" />}
-                iconPosition="left"
-                className="font-black"
-              >
-                Conversar com Especialista
-              </Button>
-            </div>
-          </div>
+            {/* Lado Direito: Formulário com Campos de Fundo Preto */}
+            <div className="lg:col-span-5 pt-4 lg:pt-0">
+              <div className="bg-[#0A0A0A] p-8 sm:p-10 rounded-[6px] shadow-2xl text-white border border-white/[0.08]">
+                <span className="text-xs uppercase tracking-[0.2em] text-[#FFD100] block mb-2 font-mono font-medium">
+                  Mensagem Direta
+                </span>
+                <h3 className="text-2xl font-light text-[#F5F5F5] mb-6">
+                  Solicite uma visita técnica
+                </h3>
 
-          {/* Dados Institucionais com Ícones */}
-          <div className="rounded-2xl bg-[#141414] border border-[#262626] p-6 sm:p-8 space-y-5">
-            <h4 className="text-lg font-black uppercase text-white font-heading border-b border-[#222222] pb-3">
-              Canais Diretos da Empresa
-            </h4>
+                {submitSuccess ? (
+                  <div className="py-6 text-left">
+                    <div className="flex items-center gap-2 text-[#FFD100] mb-3">
+                      <CheckCircle2 className="w-5 h-5" />
+                      <span className="text-sm font-medium text-[#F5F5F5]">Solicitação registrada</span>
+                    </div>
+                    <p className="text-sm text-[#8A8A8A] leading-relaxed mb-6 font-light">
+                      Nossa diretoria de operações recebeu seus dados. Se desejar atendimento imediato com prioridade, clique abaixo para abrir a conversa já preenchida no WhatsApp:
+                    </p>
+                    <div className="flex flex-col gap-3">
+                      <a
+                        href={customWhatsAppSuccessUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-3 px-4 bg-[#FFD100] text-[#0A0A0A] font-semibold text-xs uppercase tracking-wider rounded-[4px] hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2"
+                      >
+                        <span>Adiantar no WhatsApp Agora</span>
+                        <ArrowUpRight className="w-4 h-4" />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setSubmitSuccess(false)}
+                        className="text-xs text-[#8A8A8A] underline hover:text-white transition-colors pt-1 cursor-pointer"
+                      >
+                        Enviar outra solicitação
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    {errorMessage && (
+                      <div className="p-3 text-xs text-red-300 bg-red-950/60 border border-red-800 flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                        <span>{errorMessage}</span>
+                      </div>
+                    )}
 
-            <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E1E1E] text-[#FFD100] shrink-0">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider block font-bold">
-                    Central Telefônica
-                  </span>
-                  <span className="text-white font-bold">{siteContent.company.phone}</span>
-                </div>
-              </div>
+                    <div>
+                      <label htmlFor="nome" className="sr-only">
+                        Nome
+                      </label>
+                      <input
+                        id="nome"
+                        type="text"
+                        {...register("nome")}
+                        placeholder="Nome completo *"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                      />
+                      {errors.nome && (
+                        <p className="mt-1 text-xs text-red-400">{errors.nome.message}</p>
+                      )}
+                    </div>
 
-              <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E1E1E] text-[#FFD100] shrink-0">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider block font-bold">
-                    E-mail Comercial
-                  </span>
-                  <span className="text-white font-bold break-all">{siteContent.company.email}</span>
-                </div>
-              </div>
+                    <div>
+                      <label htmlFor="telefone" className="sr-only">
+                        Telefone
+                      </label>
+                      <input
+                        id="telefone"
+                        type="tel"
+                        inputMode="numeric"
+                        {...register("telefone", {
+                          onChange: (e) => {
+                            const formatted = formatPhoneBR(e.target.value);
+                            setValue("telefone", formatted, { shouldValidate: false });
+                          },
+                        })}
+                        placeholder="WhatsApp / Telefone com DDD *"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                      />
+                      {errors.telefone && (
+                        <p className="mt-1 text-xs text-red-400">{errors.telefone.message}</p>
+                      )}
+                    </div>
 
-              <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E1E1E] text-[#FFD100] shrink-0">
-                  <Instagram className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider block font-bold">
-                    Instagram Oficial
-                  </span>
-                  <a
-                    href={siteContent.company.instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#FFD100] hover:underline font-bold"
-                  >
-                    {siteContent.company.instagram}
-                  </a>
-                </div>
-              </div>
+                    <div>
+                      <label htmlFor="servico" className="sr-only">
+                        Especialidade desejada
+                      </label>
+                      <select
+                        id="servico"
+                        {...register("servico")}
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors"
+                      >
+                        {siteContent.services.map((s) => (
+                          <option key={s.id} value={s.title} className="bg-[#161616] text-[#F5F5F5]">
+                            {s.title}
+                          </option>
+                        ))}
+                        <option value="Diagnóstico Completo / Outros" className="bg-[#161616] text-[#F5F5F5]">
+                          Diagnóstico Completo / Outros
+                        </option>
+                      </select>
+                      {errors.servico && (
+                        <p className="mt-1 text-xs text-red-400">{errors.servico.message}</p>
+                      )}
+                    </div>
 
-              <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E1E1E] text-[#FFD100] shrink-0">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider block font-bold">
-                    Região de Atuação
-                  </span>
-                  <span className="text-gray-300 text-xs leading-relaxed block">
-                    {siteContent.company.cityRegion}
-                  </span>
-                </div>
-              </div>
+                    <div>
+                      <label htmlFor="mensagem" className="sr-only">
+                        Mensagem
+                      </label>
+                      <textarea
+                        id="mensagem"
+                        rows={3}
+                        {...register("mensagem")}
+                        placeholder="Detalhes (cidade, condomínio, marina ou empresa) *"
+                        className="w-full px-4 py-3 bg-[#161616] border border-white/[0.12] text-sm text-[#F5F5F5] placeholder-[#8A8A8A] rounded-[4px] focus:outline-none focus:border-[#FFD100] transition-colors resize-none"
+                      />
+                      {errors.mensagem && (
+                        <p className="mt-1 text-xs text-red-400">{errors.mensagem.message}</p>
+                      )}
+                    </div>
 
-              <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E1E1E] text-[#FFD100] shrink-0">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider block font-bold">
-                    Plantão e Prontidão
-                  </span>
-                  <span className="text-gray-300 text-xs leading-relaxed block">
-                    {siteContent.company.operatingHours}
-                  </span>
-                </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 bg-[#FFD100] text-[#0A0A0A] font-semibold text-sm uppercase tracking-wider rounded-[4px] hover:bg-[#E6BC00] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Enviando...</span>
+                        </>
+                      ) : (
+                        <span>Enviar Pedido de Diagnóstico</span>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </Section>
+      </section>
+
+      {/* Rodapé Preto Logo Abaixo da Seção de Contato */}
+      <footer className="bg-[#0A0A0A] text-[#8A8A8A] py-16 border-t border-white/[0.08] relative z-20">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start mb-12 text-sm">
+            <div className="md:col-span-5">
+              <div className="relative w-40 h-9 mb-4">
+                <Image
+                  src="/logo.svg"
+                  alt="PM Neto"
+                  fill
+                  className="object-contain object-left"
+                />
+              </div>
+              <p className="text-xs text-[#8A8A8A] font-light leading-relaxed max-w-sm">
+                Vigilância privada, portaria, monitoramento 24h e segurança marítima. {siteContent.company.cityRegion}.
+              </p>
+            </div>
+
+            <div className="md:col-span-4 space-y-1 text-xs font-light">
+              <span className="text-[11px] uppercase tracking-wider text-white/75 block mb-1 font-mono font-medium">
+                Atendimento Oficial
+              </span>
+              <p>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F5F5F5] hover:text-[#FFD100] transition-colors py-1.5 inline-block"
+                >
+                  {siteContent.company.phone} (WhatsApp)
+                </a>
+              </p>
+              <p>
+                <a
+                  href={`mailto:${siteContent.company.email}`}
+                  className="text-[#F5F5F5] hover:text-[#FFD100] transition-colors py-1.5 inline-block"
+                >
+                  {siteContent.company.email}
+                </a>
+              </p>
+              <p className="text-[#A0A0A0] py-1">{siteContent.company.operatingHours}</p>
+            </div>
+
+            <div className="md:col-span-3 space-y-1 text-xs font-light">
+              <span className="text-[11px] uppercase tracking-wider text-white/75 block mb-1 font-mono font-medium">
+                Institucional
+              </span>
+              <p>
+                <a
+                  href={siteContent.company.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F5F5F5] hover:text-[#FFD100] transition-colors py-1.5 inline-block"
+                >
+                  Instagram {siteContent.company.instagram}
+                </a>
+              </p>
+              <p>
+                <Link
+                  href="/politica-de-privacidade"
+                  className="text-[#A0A0A0] hover:text-[#F5F5F5] transition-colors py-1.5 inline-block"
+                >
+                  Política de Privacidade (LGPD)
+                </Link>
+              </p>
+              <p>
+                <Link
+                  href="/termos"
+                  className="text-[#A0A0A0] hover:text-[#F5F5F5] transition-colors py-1.5 inline-block"
+                >
+                  Termos de Uso
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[#A0A0A0] font-light font-mono">
+            <span>{siteContent.footer.copyright}</span>
+            <span>{siteContent.footer.cnpjNotice} • {siteContent.company.address}</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };

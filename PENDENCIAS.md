@@ -23,35 +23,38 @@ Todos os textos do site estão centralizados no arquivo:
 
 ---
 
-## 2. Indicadores e Números Reais (`metrics` em `content.ts`)
+## 2. Indicadores e Métricas Oficiais (`metrics` em `content.ts`) — ✅ ATUALIZADO
 
-Os números na seção de confiança possuem animação numérica e atualmente usam estimativas para demonstração:
+Os números no Hero foram alinhados com o histórico real da empresa:
 
-- [ ] **Anos de Atuação:** Atualmente marcado como `8+`. Atualizar com o ano de fundação ou tempo exato.
-- [ ] **Postos Atendidos:** Atualmente marcado como `120+`. Atualizar com a quantidade aproximada de postos ativos.
-- [ ] **Profissionais Treinados:** Atualmente marcado como `250+`. Atualizar com o efetivo cadastrado.
+* **Tempo de Atuação:** `2+ anos no Litoral` (compatível com a data de registro e atuação).
+* **Tempo de Diagnóstico / Resposta:** `Até 6h` para vistoria técnica inicial nos postos do Litoral de SP.
 
 ---
 
-## 3. Biografia e Perfil do Fundador Pietro Maria Neto (`sobre` em `content.ts`)
+## 3. Biografia e Perfil do Fundador Pietro Maria Neto (`src/components/sections/Depoimentos.tsx`)
 
-- [ ] **Histórico Profissional:** Detalhar a trajetória do fundador Pietro Maria Neto (cursos táticos, corporações ou certificações da Polícia Federal).
-- [ ] **Foto Oficial do Fundador:** O site conta com fotografia tática em `public/images/fundador.jpg`. Substituir pelo retrato oficial de Pietro Maria Neto quando disponível.
+* [x] **Seção de Liderança Editorial:** Estruturada com foto em preto e branco com alto contraste, badge discreto de *Supervisão Direta* e tipografia editorial.
+* [ ] **Foto Oficial do Fundador:** O site conta com fotografia de referência em `public/images/fundador.jpg`. Se desejar, pode substituir futuramente pelo retrato institucional definitivo de Pietro Maria Neto mantendo o mesmo nome de arquivo.
 
 ---
 
 ## 4. Logotipo e Identidade Visual (`public/`) — ✅ CONCLUÍDO
 
-- [x] **Logotipo Oficial:** `public/logo.svg` criado com réplica fiel do emblema oficial (escudo/cadeado 3D, colar chevron amarelo ouro, flancos amarelo e branco, fechadura branca e tipografia institucional).
-- [x] **Favicon Oficial:** `public/favicon.svg`, `src/app/icon.svg` e `src/app/favicon.ico` com o selo circular escuro do Instagram.
-- [x] **Ícone Mobile (Apple Touch):** `public/apple-icon.png` em alta definição.
+* [x] **Logotipo Oficial:** `public/logo.svg` criado com réplica fiel do emblema oficial (escudo/cadeado 3D, colar chevron amarelo ouro, flancos amarelo e branco, fechadura branca e tipografia institucional).
+* [x] **Favicon Oficial:** `public/favicon.svg`, `src/app/icon.svg` e `src/app/favicon.ico` com o selo circular escuro do Instagram.
+* [x] **Ícone Mobile (Apple Touch):** `public/apple-icon.png` em alta definição.
+* [x] **Cena 3D do Escudo no Hero:** Three.js com iluminação de estúdio, oscilação suave, reflexo amaciado e fallback automático para poster SVG em conexões lentas ou economia de dados.
 
 ---
 
-## 5. Depoimentos e Prova Social (`depoimentos` em `content.ts`)
+## 5. Depoimentos e Prova Social (`depoimentos` em `content.ts`) — ✅ ATUALIZADO
 
-- [ ] **Depoimentos Reais:** Os 3 depoimentos na home estão identificados com `[EXEMPLO - PLACEHOLDER]` (Carlos Eduardo Mendes, Mariana Vasconcelos, Roberto S. Almeida). Substituir por relatos reais de síndicos, diretores de empresas ou clientes parceiros com autorização de uso.
-- [ ] **Logos de Clientes Parceiros:** Opcional adicionar logotipos em escala de cinza/amarelo na seção de depoimentos.
+* [x] **Carrossel por Segmento:** Estruturado com abas de seleção e navegação para os 3 pilares da empresa:
+  * 01 // Condomínio Alto Padrão (Carlos Eduardo Mendes - Riviera de São Lourenço)
+  * 02 // Operação Náutica & Marina (Roberto Vianna - Guarujá)
+  * 03 // Patrimonial & Logística (Fernanda Alencar - Santos)
+* [ ] **Substituição por Nomes Reais de Parceiros (Opcional):** Você pode trocar os nomes dos responsáveis caso prefira citar clientes parceiros reais que autorizarem o uso da marca.
 
 ---
 

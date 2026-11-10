@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteContent } from "@/data/content";
 import { Button } from "../ui/Button";
-import { Menu, X, Phone, MessageSquare, Shield } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,7 +19,6 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Bloqueia o scroll do body quando menu mobile está aberto
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -38,38 +37,44 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-[#0A0A0A]/95 backdrop-blur-md py-3 shadow-[0_4px_30px_rgba(0,0,0,0.8)] border-b border-[#222222]"
-            : "bg-gradient-to-b from-[#0A0A0A]/90 via-[#0A0A0A]/60 to-transparent py-4 sm:py-5"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-[12px] border-b border-white/[0.06] ${
+          isScrolled ? "bg-[#0A0A0A]/90 py-3.5 shadow-lg" : "bg-[#0A0A0A]/55 py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          className="w-full mx-auto"
+          style={{
+            maxWidth: "1440px",
+            paddingLeft: "clamp(24px, 5vw, 96px)",
+            paddingRight: "clamp(24px, 5vw, 96px)",
+          }}
+        >
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD100] rounded-md"
+              className="flex items-center group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FFD100]"
               aria-label="Página Inicial PM Neto"
             >
-              <div className="relative w-44 sm:w-56 h-11 sm:h-12 transition-transform duration-200 group-hover:scale-[1.02]">
+              <div className="relative w-40 sm:w-48 h-9 sm:h-10">
                 <Image
                   src="/logo.svg"
-                  alt="PM Neto Prestação de Serviços - Pietro Maria Neto Vigilância e Segurança"
+                  alt="PM Neto - Vigilância e Segurança"
                   fill
                   priority
+                  loading="eager"
                   className="object-contain object-left"
                 />
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-8" aria-label="Navegação Principal">
+            <nav className="hidden md:flex items-center gap-10" aria-label="Navegação Principal">
               {siteContent.navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-sm font-semibold tracking-wider uppercase text-gray-300 hover:text-[#FFD100] transition-colors nav-link-hover py-1"
+                  className="text-sm font-normal text-[#A0A0A0] hover:text-[#FFFFFF] transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -77,94 +82,64 @@ export const Header: React.FC = () => {
             </nav>
 
             {/* CTA Desktop */}
-            <div className="hidden sm:flex items-center gap-4">
+            <div className="hidden sm:flex items-center">
               <Button
                 href={whatsappUrl}
                 variant="primary"
                 size="sm"
-                icon={<MessageSquare className="w-4 h-4 fill-current" />}
-                iconPosition="left"
-                className="font-black"
+                icon={<ArrowUpRight className="w-3.5 h-3.5" />}
+                iconPosition="right"
               >
-                Solicitar Orçamento
+                Falar no WhatsApp
               </Button>
             </div>
 
-            {/* Mobile Hamburger Button */}
-            <div className="flex sm:hidden items-center gap-2">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-[#0A0A0A] bg-[#FFD100] rounded-md font-bold"
-                aria-label="WhatsApp PM Neto"
-              >
-                <MessageSquare className="w-5 h-5 fill-current" />
-              </a>
+            {/* Mobile Menu Button */}
+            <div className="flex sm:hidden items-center">
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2.5 rounded-md text-gray-200 hover:text-[#FFD100] bg-[#161616] border border-[#2E2E2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD100]"
+                className="p-2 text-[#8A8A8A] hover:text-[#F5F5F5] focus-visible:outline-none"
                 aria-expanded={mobileMenuOpen}
-                aria-label="Abrir Menu de Navegação"
+                aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer Menu (Tela Cheia) */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0A0A0A] flex flex-col justify-between pt-24 pb-8 px-6 overflow-y-auto sm:hidden animate-fadeIn">
-          {/* Header interno do menu com logo */}
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center justify-between pb-4 border-b border-[#222222]">
-              <span className="text-xs uppercase tracking-widest text-[#FFD100] font-bold flex items-center gap-2">
-                <Shield className="w-4 h-4" /> Menu Principal
-              </span>
-              <button
+        <div className="fixed inset-0 z-40 bg-[#0A0A0A] flex flex-col justify-between pt-28 pb-10 px-8 sm:hidden">
+          <nav className="flex flex-col gap-6">
+            {siteContent.navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-gray-400 hover:text-white p-1"
-                aria-label="Fechar Menu"
+                className="text-2xl font-light text-[#F5F5F5] hover:text-[#FFD100] transition-colors py-2 border-b border-white/[0.06]"
               >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-            <nav className="flex flex-col gap-4">
-              {siteContent.navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-2xl font-black uppercase tracking-tight text-white hover:text-[#FFD100] py-2 border-b border-[#181818] transition-colors flex items-center justify-between"
-                >
-                  <span>{item.label}</span>
-                  <span className="text-[#FFD100] text-sm font-normal">→</span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Rodapé do Menu Mobile */}
-          <div className="mt-8 pt-6 border-t border-[#222222] flex flex-col gap-4">
+          <div className="pt-6">
             <Button
               href={whatsappUrl}
               variant="primary"
               size="lg"
               fullWidth
-              icon={<MessageSquare className="w-5 h-5 fill-current" />}
-              iconPosition="left"
               onClick={() => setMobileMenuOpen(false)}
+              icon={<ArrowUpRight className="w-4 h-4" />}
             >
               Falar no WhatsApp
             </Button>
-            <div className="text-center text-xs text-gray-400 mt-2">
-              <p className="font-semibold text-gray-300">Central de Operações Litoral de SP</p>
-              <p className="mt-1">{siteContent.company.phone}</p>
-            </div>
+            <p className="mt-4 text-center text-xs text-[#8A8A8A]">
+              Atendimento no Litoral de SP • Plantão 24h
+            </p>
           </div>
         </div>
       )}

@@ -1,65 +1,91 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { siteContent } from "@/data/content";
-import { Section } from "../ui/Section";
-import { Heading } from "../ui/Heading";
-import { IconHelper } from "../ui/IconHelper";
-import { CheckCircle2 } from "lucide-react";
 
 export const ComoFunciona: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [scrollLineWidth, setScrollLineWidth] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Progresso do scroll dentro da seção
+      const start = windowHeight * 0.8;
+      const end = -rect.height * 0.2;
+      const current = rect.top;
+
+      const progress = Math.min(Math.max((start - current) / (start - end), 0), 1);
+      setScrollLineWidth(progress * 100);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <Section id="como-funciona" variant="black">
-      <Heading
-        badge="Metodologia em 4 Etapas"
-        badgeIcon={<CheckCircle2 className="w-3.5 h-3.5 text-[#FFD100]" />}
-        title={
-          <>
-            Quem entende de gestão, <span className="text-[#FFD100]">investe em segurança</span>.
-          </>
-        }
-        subtitle="Porque prejuízo não se recupera, se evita. Conheça nosso fluxo estruturado desde o primeiro contato até a fiscalização diária no seu posto."
-      />
+    <section
+      ref={sectionRef}
+      id="como-funciona"
+      className="py-28 sm:py-40 relative bg-[#161616] text-[#F5F5F5] border-t border-white/[0.06]"
+    >
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-8">
+        <div className="mb-20 sm:mb-28 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8">
+          <div>
+            <span className="text-xs uppercase tracking-[0.25em] text-[#8A8A8A] block mb-3 font-mono">
+              [ 02 // METODOLOGIA ]
+            </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-[#F5F5F5]">
+              Como <span className="text-[#FFD100]">funciona</span>
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base text-[#8A8A8A] max-w-md font-light leading-relaxed">
+            Fluxo estruturado e sem ruídos, da análise inicial à presença operacional definitiva.
+          </p>
+        </div>
 
-      {/* Linha do tempo em 4 passos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-        {siteContent.comoFunciona.map((step, idx) => (
+        {/* Linha de progresso horizontal amarela conectando os passos */}
+        <div className="relative mb-16 hidden md:block">
+          <div className="h-[2px] w-full bg-white/[0.1] absolute top-1/2 -translate-y-1/2" />
           <div
-            key={step.step}
-            className="flex flex-col rounded-xl bg-[#131313] border border-[#242424] p-6 relative hover:border-[#FFD100]/60 transition-all duration-300 group hover:-translate-y-1"
-          >
-            {/* Número grande no fundo */}
-            <div className="text-5xl font-black text-[#222222] group-hover:text-[#FFD100]/20 font-heading tracking-tight select-none transition-colors">
-              {step.step}
-            </div>
+            className="h-[2px] bg-[#FFD100] absolute top-1/2 -translate-y-1/2 transition-all duration-150 ease-out shadow-[0_0_12px_#FFD100]"
+            style={{ width: `${scrollLineWidth}%` }}
+          />
+        </div>
 
-            {/* Ícone e Rótulo */}
-            <div className="mt-4 flex items-center justify-between">
-              <div className="p-3 rounded-lg bg-[#1F1F1F] text-[#FFD100] border border-[#2E2E2E] group-hover:bg-[#FFD100] group-hover:text-[#0A0A0A] transition-colors">
-                <IconHelper name={step.icon} className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FFD100]">
+        {/* 3 Passos Lineares com Números de 80px em Amarelo */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-12 relative">
+          {siteContent.comoFunciona.steps.map((step) => (
+            <div
+              key={step.number}
+              className="flex flex-col pt-6 md:pt-0 border-t md:border-t-0 border-white/[0.08] group"
+            >
+              {/* Número Gigante de 80px em Amarelo */}
+              <span className="font-mono text-6xl sm:text-7xl md:text-8xl font-light text-[#FFD100] tracking-tighter mb-4 select-none leading-none">
                 {step.number}
               </span>
+
+              <h3 className="text-2xl sm:text-3xl font-normal text-[#F5F5F5] tracking-tight mb-3 group-hover:text-[#FFD100] transition-colors">
+                {step.title}
+              </h3>
+
+              <p className="text-base text-[#8A8A8A] leading-relaxed font-light">
+                {step.description}
+              </p>
             </div>
+          ))}
+        </div>
 
-            {/* Título do Passo */}
-            <h3 className="mt-5 text-lg font-black uppercase text-white tracking-tight font-heading group-hover:text-[#FFD100] transition-colors">
-              {step.title}
-            </h3>
-
-            {/* Descrição */}
-            <p className="mt-2 text-xs sm:text-sm text-gray-400 leading-relaxed">
-              {step.description}
-            </p>
-
-            {/* Linha amarela na base do card */}
-            <div className="mt-6 pt-3 border-t border-[#1E1E1E]">
-              <div className="w-6 h-1 bg-[#2E2E2E] group-hover:w-full group-hover:bg-[#FFD100] transition-all duration-500 rounded-full" />
-            </div>
-          </div>
-        ))}
+        {/* Linha discreta de Segmentos */}
+        <div className="mt-20 pt-8 border-t border-white/[0.06] flex items-center justify-between flex-wrap gap-4 text-xs font-mono tracking-widest text-[#8A8A8A] uppercase">
+          <span>Aplicações</span>
+          <span className="text-[#F5F5F5]">{siteContent.comoFunciona.segments}</span>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 };

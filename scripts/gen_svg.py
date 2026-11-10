@@ -1,0 +1,73 @@
+# Generator for logo-shield.svg and shieldPaths.ts
+
+svg_content = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%" fill="none">
+  <defs>
+    <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- 1. HASTE DO CADEADO (Arco Branco) -->
+  <path id="shackle"
+        fill="#F2F2F2"
+        d="M 368 385
+           L 368 335
+           A 144 144 0 0 1 656 335
+           L 656 385
+           L 598 385
+           L 598 335
+           A 86 86 0 0 0 426 335
+           L 426 385
+           Z" />
+
+  <!-- 2. TELHADO DO ESCUDO (Chevron Amarelo) -->
+  <path id="chevron"
+        fill="#FFD100"
+        d="M 512 358
+           L 312 427
+           L 384 478
+           L 512 435
+           L 640 478
+           L 712 427
+           Z" />
+
+  <!-- 3. LATERAL ESQUERDA (Amarela) -->
+  <path id="left_wing"
+        fill="#FFD100"
+        d="M 312 438
+           L 382 488
+           L 382 590
+           C 382 660 440 710 508 720
+           L 508 802
+           C 420 780 312 680 312 590
+           Z" />
+
+  <!-- 4. LATERAL DIREITA (Branca) -->
+  <path id="right_wing"
+        fill="#F2F2F2"
+        d="M 712 438
+           L 642 488
+           L 642 590
+           C 642 660 584 710 516 720
+           L 516 802
+           C 604 780 712 680 712 590
+           Z" />
+
+  <!-- 5. FECHADURA CENTRAL (Branca com respiração / vazada) -->
+  <path id="keyhole"
+        fill="#F2F2F2"
+        d="M 512 494
+           A 38 38 0 0 1 544 553
+           L 556 652
+           L 468 652
+           L 480 553
+           A 38 38 0 0 1 512 494
+           Z" />
+</svg>
+'''
+
+with open('public/brand/logo-shield.svg', 'w', encoding='utf-8') as f:
+    f.write(svg_content.strip())
+
+print("Saved public/brand/logo-shield.svg successfully!")

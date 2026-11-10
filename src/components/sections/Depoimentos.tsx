@@ -1,118 +1,157 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { siteContent } from "@/data/content";
-import { Section } from "../ui/Section";
-import { Heading } from "../ui/Heading";
-import { Quote, ChevronLeft, ChevronRight, Star, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ShieldCheck } from "lucide-react";
 
 export const Depoimentos: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const items = siteContent.depoimentos;
+  const testimonials = siteContent.depoimentos;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const prev = () => {
-    setCurrentIndex((prevIdx) => (prevIdx === 0 ? items.length - 1 : prevIdx - 1));
+  const current = testimonials[activeIndex] || testimonials[0];
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
-  const next = () => {
-    setCurrentIndex((prevIdx) => (prevIdx === items.length - 1 ? 0 : prevIdx + 1));
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
-
-  const current = items[currentIndex];
 
   return (
-    <Section id="depoimentos" variant="black">
-      <Heading
-        badge="Prova Social & Confiança"
-        badgeIcon={<ShieldCheck className="w-3.5 h-3.5 text-[#FFD100]" />}
-        title={
-          <>
-            O que Nossos <span className="text-[#FFD100]">Clientes Dizem</span>
-          </>
-        }
-        subtitle="Relações pautadas pela transparência, segurança inabalável e respeito diário aos nossos parceiros."
-      />
-
-      <div className="max-w-4xl mx-auto">
-        {/* Card do Depoimento com Efeito Glass escuro */}
-        <div className="relative rounded-2xl bg-[#141414] border border-[#262626] p-8 sm:p-12 shadow-2xl">
-          {/* Ícone de Aspas Amarelo */}
-          <div className="absolute top-6 right-8 text-[#FFD100]/20 pointer-events-none">
-            <Quote className="w-16 h-16" />
-          </div>
-
-          {/* 5 Estrelas */}
-          <div className="flex items-center gap-1 mb-6 text-[#FFD100]">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-current" />
-            ))}
-            <span className="ml-2 text-xs text-gray-400 font-semibold uppercase tracking-wider">
-              Excelência Operacional
+    <section
+      id="lideranca"
+      className="py-28 sm:py-40 relative bg-[#0A0A0A] text-[#F5F5F5] border-t border-white/[0.08] overflow-hidden"
+    >
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-8">
+        <div className="mb-16 sm:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8">
+          <div>
+            <span className="text-xs uppercase tracking-[0.25em] text-[#8A8A8A] block mb-3 font-mono">
+              [ 03 // LIDERANÇA & RECONHECIMENTO ]
             </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-[#F5F5F5]">
+              Presença que <span className="text-stroke font-normal">Protege</span>
+            </h2>
           </div>
 
-          {/* Conteúdo do Depoimento */}
-          <blockquote className="text-lg sm:text-2xl text-gray-200 font-medium leading-relaxed italic">
-            &ldquo;{current.content}&rdquo;
-          </blockquote>
-
-          {/* Dados do Autor */}
-          <div className="mt-8 pt-6 border-t border-[#222222] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <h4 className="text-lg font-black text-white uppercase font-heading">
-                  {current.name}
-                </h4>
-              </div>
-              <p className="text-xs text-[#FFD100] font-semibold mt-0.5">
-                {current.role} • {current.segment}
-              </p>
-              <p className="text-xs text-gray-400">
-                {current.city}
-              </p>
-            </div>
-
-            {/* Controles do Carrossel */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={prev}
-                className="p-3 rounded-lg bg-[#1E1E1E] text-white hover:bg-[#FFD100] hover:text-[#0A0A0A] border border-[#2E2E2E] transition-all"
-                aria-label="Depoimento anterior"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <span className="text-xs font-mono text-gray-400 px-2">
-                {currentIndex + 1} / {items.length}
-              </span>
-              <button
-                onClick={next}
-                className="p-3 rounded-lg bg-[#1E1E1E] text-white hover:bg-[#FFD100] hover:text-[#0A0A0A] border border-[#2E2E2E] transition-all"
-                aria-label="Próximo depoimento"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+          {/* Seletor de Segmento dos Depoimentos */}
+          <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Depoimentos por segmento">
+            {testimonials.map((item, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-[3px] border transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-[#FFD100] text-[#0A0A0A] border-[#FFD100] font-medium"
+                      : "bg-[#161616] text-[#8A8A8A] border-white/[0.08] hover:text-[#F5F5F5] hover:border-white/20"
+                  }`}
+                >
+                  {`0${idx + 1} // ${item.segment}`}
+                </button>
+              );
+            })}
           </div>
-
         </div>
 
-        {/* Faixa de logos de segmentos atendidos (Placeholders elegantes) */}
-        <div className="mt-14 pt-10 border-t border-[#1C1C1C] text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">
-            Segurança em Operações Críticas no Litoral de São Paulo
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 opacity-60">
-            {["Terminais Portuários", "Condomínios de Luxo", "Centros Logísticos", "Polos Industriais"].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-3 rounded-lg bg-[#111111] border border-[#222222] text-xs font-black uppercase text-gray-400 font-heading tracking-wider"
-              >
-                {item}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Foto de Pietro Maria Neto em Preto e Branco */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full rounded-[4px] overflow-hidden border border-white/[0.12] bg-[#161616] group">
+              <Image
+                src="/images/fundador.jpg"
+                alt="Pietro Maria Neto - Fundador e Diretor de Operações"
+                fill
+                priority={false}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover object-center filter grayscale contrast-[1.15] group-hover:scale-[1.02] transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent opacity-90" />
+
+              {/* Selo Superior Discreto */}
+              <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-[3px] bg-[#0A0A0A]/80 border border-white/[0.12] backdrop-blur-md">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FFD100]" />
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#F5F5F5]">
+                  Supervisão Direta
+                </span>
               </div>
-            ))}
+
+              <div className="absolute bottom-5 left-5 right-5 text-xs font-mono tracking-widest text-[#8A8A8A] uppercase">
+                <span className="block text-[#F5F5F5] font-sans font-medium text-base mb-0.5">
+                  Pietro Maria Neto
+                </span>
+                <span className="text-[#FFD100]/90">Diretor Geral de Operações</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Depoimento ao lado com Aspas Amarelas Gigantes e Navegação */}
+          <div className="lg:col-span-7 flex flex-col justify-between relative">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                {/* Aspas decorativas amarelas gigantes */}
+                <span
+                  aria-hidden="true"
+                  className="text-7xl sm:text-8xl md:text-9xl font-serif text-[#FFD100]/25 select-none leading-none -mb-8 sm:-mb-12"
+                >
+                  &ldquo;
+                </span>
+
+                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FFD100] px-3 py-1 rounded-[3px] bg-[#FFD100]/10 border border-[#FFD100]/20">
+                  {current.segment}
+                </span>
+              </div>
+
+              <blockquote
+                key={current.id}
+                className="text-2xl sm:text-3xl md:text-4xl font-light text-[#F5F5F5] leading-snug tracking-tight relative z-10 min-h-[160px] sm:min-h-[180px] flex items-center"
+              >
+                {current.quote}
+              </blockquote>
+            </div>
+
+            <div className="mt-8 sm:mt-10 pt-6 border-t border-white/[0.1] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-sm font-light">
+                <span className="text-[#FFD100] font-medium font-sans text-base">
+                  {current.author}
+                </span>
+                <span className="hidden sm:inline text-white/20">•</span>
+                <span className="text-[#8A8A8A]">
+                  {current.role} — {current.location}
+                </span>
+              </div>
+
+              {/* Controles Anteriores / Próximos */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Depoimento anterior"
+                  className="w-10 h-10 rounded-full border border-white/[0.15] flex items-center justify-center text-[#F5F5F5] hover:bg-[#FFD100] hover:border-[#FFD100] hover:text-[#0A0A0A] transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <span className="text-xs font-mono text-[#8A8A8A] px-2">
+                  0{activeIndex + 1} / 0{testimonials.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Próximo depoimento"
+                  className="w-10 h-10 rounded-full border border-white/[0.15] flex items-center justify-center text-[#F5F5F5] hover:bg-[#FFD100] hover:border-[#FFD100] hover:text-[#0A0A0A] transition-all cursor-pointer"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };

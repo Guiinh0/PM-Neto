@@ -1,17 +1,13 @@
 import React from "react";
 import { siteContent } from "@/data/content";
 import { Hero } from "@/components/sections/Hero";
-import { Metrics } from "@/components/sections/Metrics";
+import { MarqueeStrip } from "@/components/common/MarqueeStrip";
 import { Services } from "@/components/sections/Services";
-import { YellowBanner } from "@/components/sections/YellowBanner";
-import { Diferenciais } from "@/components/sections/Diferenciais";
 import { ComoFunciona } from "@/components/sections/ComoFunciona";
-import { Segmentos } from "@/components/sections/Segmentos";
-import { Sobre } from "@/components/sections/Sobre";
 import { Depoimentos } from "@/components/sections/Depoimentos";
-import { Instagram } from "@/components/sections/Instagram";
 import { Faq } from "@/components/sections/Faq";
 import { Contato } from "@/components/sections/Contato";
+import { CursorEffects } from "@/components/common/CursorEffects";
 
 export default function HomePage() {
   const localBusinessSchema = {
@@ -65,40 +61,28 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
 
-      {/* 1. Hero */}
+      {/* Cursor spotlight sutil e anel de foco */}
+      <CursorEffects />
+
+      {/* 1. HERO (com Cena 3D / Mapa Tático do Litoral) */}
       <Hero />
 
-      {/* 2. Faixa de Números / Confiança */}
-      <Metrics />
+      {/* Faixa Marquee de transição com contorno */}
+      <MarqueeStrip />
 
-      {/* 3. Serviços Oficiais (8 cards) */}
+      {/* 2. SERVIÇOS (Fundo Paper #F2EFE8, números 120px+ em contorno e hover dinâmico) */}
       <Services />
 
-      {/* 4. Faixa Amarela de Impacto */}
-      <YellowBanner />
-
-      {/* 5. Diferenciais */}
-      <Diferenciais />
-
-      {/* 6. Como Funciona (Linha do Tempo em 4 Passos) */}
+      {/* 3. COMO FUNCIONA (Fundo Graphite #161616, linha de progresso do scroll e números 80px amarelos) */}
       <ComoFunciona />
 
-      {/* 7. Segmentos Atendidos */}
-      <Segmentos />
-
-      {/* 8. Sobre Pietro Maria Neto & Valores */}
-      <Sobre />
-
-      {/* 9. Depoimentos / Prova Social */}
+      {/* 4. PROVA SOCIAL (Fundo Black #0A0A0A, foto de Pietro Maria Neto em P&B e aspas gigantes) */}
       <Depoimentos />
 
-      {/* 10. Conteúdo Instagram & Dicas */}
-      <Instagram />
-
-      {/* 11. Perguntas Frequentes (FAQ com Schema) */}
+      {/* 5. FAQ (Fundo Paper #F2EFE8, acordeão com botão amarelo circular) */}
       <Faq />
 
-      {/* 12. Contato & Orçamento Final */}
+      {/* 6. CONTATO + RODAPÉ INTEGRADO (Fundo Amarelo Sólido da marca e rodapé preto) */}
       <Contato />
     </>
   );
